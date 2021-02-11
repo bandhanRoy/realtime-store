@@ -1,0 +1,64 @@
+<mat-sidenav #sideNav1 mode="side" position="end" class="form-sidenav">
+    <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="sideNav1.close()">
+        <mat-icon>close</mat-icon>
+    </button>
+    <form class="form-container" [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
+        <ng-container *ngIf="showStores; else showOrder">
+            <div class="text-center">
+                <img [src]="imgUrl" alt="Store Image" class="image">
+                <br />
+                <button mat-button type="button" (click)="photoInput.click()">Upload Image</button>
+                <input type="file" id="my_file" style="display: none;" #photoInput
+                    (change)="handleFileInput($event.target.files)" />
+            </div>
+            <mat-form-field>
+                <input matInput placeholder="Store Name" formControlName="store_name" required>
+                <mat-error *ngIf="submitted && f.store_name.errors && f.store_name.errors.required">Store name is
+                    required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Latitude" formControlName="lat" required>
+                <mat-error *ngIf="submitted && f.lat.errors && f.lat.errors.required">Latitude is required</mat-error>
+                <mat-error *ngIf="submitted && f.lat.errors && f.lat.errors.pattern">Latitude is wrong</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Longitude" formControlName="long" required>
+                <mat-error *ngIf="submitted && f.long.errors && f.long.errors.required">Longitude is required
+                </mat-error>
+                <mat-error *ngIf="submitted && f.long.errors && f.long.errors.pattern">Longitude is wrong</mat-error>
+            </mat-form-field>
+        </ng-container>
+        <ng-template #showOrder>
+            <mat-form-field>
+                <mat-select placeholder="Select Store Name" formControlName="store_id">
+                    <mat-option [value]="">Select a store</mat-option>
+                    <mat-option *ngFor="let store of stores" [value]="store.id">{{store.store_name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="submitted && f.store_id.errors && f.store_id.errors.required">Select a store
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Order Number" formControlName="order_number" required>
+                <mat-error *ngIf="submitted && f.order_number.errors && f.order_number.errors.required">Order Number is
+                    required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Order Amount" formControlName="order_amount" required>
+                <span matPrefix>$&nbsp;</span>
+                <mat-error *ngIf="submitted && f.order_amount.errors && f.order_amount.errors.required">Order Amount is
+                    required
+                </mat-error>
+                <mat-error *ngIf="submitted && f.order_amount.errors && f.order_amount.errors.pattern">Order Amount is
+                    wrong
+                </mat-error>
+            </mat-form-field>
+        </ng-template>
+
+
+        <div class="text-right">
+            <button mat-raised-button color="primary">Submit</button>
+        </div>
+    </form>
+</mat-sidenav>

@@ -1,0 +1,21 @@
+<!-- Map Component -->
+<agm-map [latitude]="lat" [longitude]="long">
+    <ng-container *ngIf="markers.length; else singleMarker">
+        <agm-marker *ngFor="let m of markers;" [latitude]="m.lat" [longitude]="m.long" [label]="{text: m.store_name}">
+            <agm-info-window>
+                <p>{{ m.store_name }}</p>
+            </agm-info-window>
+        </agm-marker>
+    </ng-container>
+    <ng-template #singleMarker>
+        <agm-marker [latitude]="lat" [longitude]="long" [label]="{text: storeName}">
+            <agm-snazzy-info-window #snazzyInfoWindow [closeWhenOthersOpen]="true" [closeOnMapClick]="true"
+                [isOpen]="isSnazzyInfoWindowOpened">
+                <ng-template>
+                    <p>Store Name: {{storeName}}</p>
+                    <p>Orders {{orderCount}}</p>
+                </ng-template>
+            </agm-snazzy-info-window>
+        </agm-marker>
+    </ng-template>
+</agm-map>
